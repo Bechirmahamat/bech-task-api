@@ -37,10 +37,14 @@ const updateTask = (req, res) => {
 
     res.status(200).json({ success: true, data: [] })
 }
-const getTask = (req, res) => {
+const getTask = async (req, res) => {
     const id = req.params.id
-
-    res.status(200).json({ success: true, data: [] })
+    try {
+        const task = await Task.findOne({ _id: id })
+        res.status(200).json({ success: true, task })
+    } catch (error) {
+        res.status(404).json({ success: false, error })
+    }
 }
 
 module.exports = { getAllTask, getTask, deleteTask, updateTask, createTask }
